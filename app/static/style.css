@@ -1,0 +1,36 @@
+.dict-api_words {
+    color: dimgray;
+    background-color: #DDDDDD;
+}
+
+.dict-api_suggestions {
+}
+
+.dict-api_header {
+    color: white;
+    background-color: #00A9FF;
+    margin: 0.5em 0 0.5em 0;
+}
+
+.dict-api_word {
+    margin-left: 4px;
+}
+
+.dict-api_coca {
+    background-color: lightyellow;
+    padding: 0 8px;
+}
+
+.dict-api_coca .coca-pos {
+    color: purple;
+    font-weight: bold;
+}
+
+.dict-api_coca .coca-pos ~ .coca-pos {
+    margin-left: 8px;
+}
+
+iframe {
+    width: 100%;
+    border: none;
+}

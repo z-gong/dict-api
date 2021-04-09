@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dict viewer - {{ words[0] }}</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='style.css') }}">
+    <script>
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+        }
+    </script>
+</head>
+<body>
+
+<div class="dict-api_words">
+    {{ ', '.join(words) }}
+</div>
+
+{% if not definitions | length %}
+    <div class="dict-api_suggestions">
+        {% for word in suggestions %}
+            <a href="{{ url_for('main.query', word_str=word) }}">{{ word }}</a>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% for word, values in definitions.items() %}
+    {% for val in values %}
+        <div class="dict-api_header">
+            <span class="dict-api_word">{{ word }}</span>
+            {% if coca_dict[word] is not none %}
+                <span class="dict-api_coca">{{ coca_dict[word] | safe }}</span>
+            {% endif %}
+        </div>
+        {% if iframe %}
+            <iframe srcdoc="{{ val }}" onload="resizeIframe(this)"></iframe>
+        {% else %}
+            {{ val | safe }}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+</body>
+</html>
