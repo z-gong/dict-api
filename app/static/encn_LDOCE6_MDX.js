@@ -106,7 +106,12 @@ class encn_LDOCE6_MDX {
                 audios[index] = base + href;
             }
 
-            let pos = T(header.querySelector('.pos'));
+            let pos = T(header.querySelector('.pos'))
+                .replace('adjective', 'adj')
+                .replace('adverb', 'adv')
+                .replace('preposition', 'prep')
+                .replace('phrasal verb', 'phrvb');
+            let extrainfo = `<span class='pos_top'>${pos}</span>`;
             let entrygram = T(header.querySelector('.gram'));
 
             let senses = entry.querySelectorAll(':scope > .sense');
@@ -125,14 +130,10 @@ class encn_LDOCE6_MDX {
                 for (const subsense of subsenses) {
                     let gram = entrygram + sensegram + T(subsense.querySelector(':scope > .gram'));
                     let posgram = pos + gram !== '' ? `<span class='pos'>${(pos + ' ' + gram).trim()}</span>` : '';
-                    posgram = posgram.replace('adjective', 'adj')
-                        .replace('adverb', 'adv')
-                        .replace('uncountable', 'U')
+                    posgram = posgram.replace('uncountable', 'U')
                         .replace('countable', 'C')
                         .replace('intransitive', 'I')
-                        .replace('transitive', 'T')
-                        .replace('adverb', 'adv')
-                        .replace('preposition', 'prep');
+                        .replace('transitive', 'T');
                     // note that Chinese translation is inside the def with class `cn`
                     let def = subsense.querySelector(':scope > .def');
                     if (!def) continue;
@@ -192,19 +193,20 @@ class encn_LDOCE6_MDX {
                 }
             }
 
-            if (reading === last_reading && !is_phrvb && !last_is_phrvb) {
-                let note = notes[notes.length - 1];
-                note.definitions = note.definitions.concat(...definitions);
-            } else {
-                let css = this.renderCSS();
-                notes.push({
-                    css,
-                    expression,
-                    reading,
-                    definitions,
-                    audios
-                });
-            }
+            // if (reading === last_reading && !is_phrvb && !last_is_phrvb) {
+            //     let note = notes[notes.length - 1];
+            //     note.definitions = note.definitions.concat(...definitions);
+            // } else {
+            let css = this.renderCSS();
+            notes.push({
+                css,
+                expression,
+                reading,
+                extrainfo,
+                definitions,
+                audios
+            });
+            // }
 
             last_reading = reading;
             last_is_phrvb = is_phrvb;
@@ -218,6 +220,7 @@ class encn_LDOCE6_MDX {
             <style>
                 span.head_gram{font-size: 0.8em;font-weight: bold;background-color: green;color: white;border-radius: 3px;margin: 0 3px;padding : 2px 3px;}
                 span.head_freq{font-size: 0.8em;font-weight: bold;border: 1px solid red;border-radius:3px;color: red;margin: 0 3px;padding: 1px 2px;}
+                span.pos_top{font-size: 0.9em; font-weight: bold; color: purple;}
                 span.pos{font-size: 0.9em;margin-right: 3px;padding: 0 4px;color: white;background-color: #0d47a1;border-radius: 3px;}
                 span.eng_lex{font-weight: bold; margin-right: 3px;}
                 span.eng_sign{font-size: 0.9em;margin-right: 3px;padding: 0 4px;color: white;background-color: darkorange;border-radius: 3px;}

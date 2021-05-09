@@ -1,2 +1,4 @@
 flask
 hunspell
+beautifulsoup4
+lxml
