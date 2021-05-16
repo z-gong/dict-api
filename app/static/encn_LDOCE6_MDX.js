@@ -111,7 +111,8 @@ class encn_LDOCE6_MDX {
                 .replace('adverb', 'adv')
                 .replace('preposition', 'prep')
                 .replace('phrasal verb', 'phrvb');
-            let extrainfo = `<span class='pos_top'>${pos}</span>`;
+			/*let extrainfo = `<span class='pos_top'>${pos}</span>`;*/
+            let extrainfo = pos;
             let entrygram = T(header.querySelector('.gram'));
 
             let senses = entry.querySelectorAll(':scope > .sense');
@@ -220,7 +221,7 @@ class encn_LDOCE6_MDX {
             <style>
                 span.head_gram{font-size: 0.8em;font-weight: bold;background-color: green;color: white;border-radius: 3px;margin: 0 3px;padding : 2px 3px;}
                 span.head_freq{font-size: 0.8em;font-weight: bold;border: 1px solid red;border-radius:3px;color: red;margin: 0 3px;padding: 1px 2px;}
-                span.pos_top{font-size: 0.9em; font-weight: bold; color: purple;}
+                span.odh-extra{font-size: 0.9em; font-weight: bold; color: purple;}
                 span.pos{font-size: 0.9em;margin-right: 3px;padding: 0 4px;color: white;background-color: #0d47a1;border-radius: 3px;}
                 span.eng_lex{font-weight: bold; margin-right: 3px;}
                 span.eng_sign{font-size: 0.9em;margin-right: 3px;padding: 0 4px;color: white;background-color: darkorange;border-radius: 3px;}
