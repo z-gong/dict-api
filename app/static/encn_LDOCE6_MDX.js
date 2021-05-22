@@ -129,12 +129,16 @@ class encn_LDOCE6_MDX {
                 }
 
                 for (const subsense of subsenses) {
-                    let gram = entrygram + sensegram + T(subsense.querySelector(':scope > .gram'));
-                    let posgram = pos + gram !== '' ? `<span class='pos'>${(pos + ' ' + gram).trim()}</span>` : '';
+                    let gram = entrygram + ' ' + sensegram + ' ' +  T(subsense.querySelector(':scope > .gram'));
+                    let posgram = (pos + gram).trim() !== '' ? `<span class='pos'>${(pos + ' ' + gram).trim()}</span>` : '';
                     posgram = posgram.replace('uncountable', 'U')
                         .replace('countable', 'C')
                         .replace('intransitive', 'I')
-                        .replace('transitive', 'T');
+                        .replace('transitive', 'T')
+						.replace('adjective', 'adj')
+						.replace('adverb', 'adv')
+						.replace('preposition', 'prep')
+						.replace('phrasal verb', 'phrvb');
                     // note that Chinese translation is inside the def with class `cn`
                     let def = subsense.querySelector(':scope > .def');
                     if (!def) continue;
@@ -170,14 +174,21 @@ class encn_LDOCE6_MDX {
                     let collos = subsense.querySelectorAll('.colloexa') || [];
                     let extras = [...grams, ...collos];
                     for (const extra of extras) {
-                        let eng_gram = T(extra.querySelector('.propform, .propformprep'));
-                        let eng_collo = T(extra.querySelector('.collo'));
-                        if (!eng_gram && !eng_collo) continue;
-                        eng_gram = eng_gram ? `<span class="eng_gram_prop">${eng_gram}` : '';
-                        eng_collo = eng_collo ? `<span class="eng_gram_collo">${eng_collo}</span>` : '';
+                        let eng_gram = T(extra.querySelector('.propform, .propformprep, .collo'));
+                        eng_gram = eng_gram ? `<span class="eng_gram">${eng_gram}</span>` : '';
                         let eng_gloss = extra.querySelector(':scope > .gloss');
-                        eng_gloss = eng_gloss ? `<span class="eng_gram_gloss">${eng_gloss.innerHTML}</span>` : '';
-                        definition += `<span class="gram_extra">${eng_gram}${eng_collo}${eng_gloss}</span>`;
+						let gloss_chn_tran = '';
+						if (eng_gloss) {
+							let gloss_cn = eng_gloss.querySelector(':scope > .cn');
+							if (gloss_cn) {
+								eng_gloss.removeChild(gloss_cn);
+								gloss_chn_tran = `<span class='chn_gram_tran'>${gloss_cn.innerText}</span>`;
+							}
+							eng_gloss = `<span class="eng_gram_gloss">${eng_gloss.innerHTML}</span>`;
+						} else {
+							eng_gloss = '';
+						}
+                        definition += `<span class="gram_extra">${eng_gram}${eng_gloss}${gloss_chn_tran}</span>`;
 
                         let examp = extra.querySelector('.example') || '';
                         if (!examp) continue;
@@ -228,11 +239,9 @@ class encn_LDOCE6_MDX {
                 span.tran,
                 span.gram_extra{margin: 0;padding: 0;}
                 span.eng_tran,
-                span.eng_gram_prop,
-                span.eng_gram_collo,
+                span.eng_gram,
                 span.eng_gram_gloss{margin-right: 3px;padding: 0;}
-                span.eng_gram_prop,
-                span.eng_gram_collo{color: crimson; display: block;}
+                span.eng_gram{color: crimson; display: block;}
                 span.chn_tran,
                 span.chn_gram_tran {color: #0d47a1}
                 ul.sents,
