@@ -1,8 +1,8 @@
-## dict-api
+# dict-api
 
-A web service for looking up definitions from MDX/MDD dict files.
+A web service for looking up definitions from `MDX/MDD` dict files.
 
-It also serves as a backend for ODH (online dictionary helper) plugin for chrome.
+It also serves as a backend for `ODH` (online dictionary helper) plugin for chrome.
 
 English word morphology is supported through hunspell.
 
@@ -18,7 +18,7 @@ English word morphology is supported through hunspell.
 Reverse-engineering of the `mdx` format  
 https://github.com/csarron/mdict-analysis
 
-Encryption support
+Encryption support  
 https://github.com/zhansliu/writemdict
 
 Index support  
